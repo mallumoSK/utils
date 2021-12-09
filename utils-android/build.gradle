@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'maven'
+apply plugin: 'kotlin-android'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+
+group = 'tk.mallumo'
+version = "14.0.0"
+
+android {
+    compileSdkVersion 31
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 31
+        versionCode 1
+        versionName "$version"
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    packagingOptions {
+        pickFirst 'META-INF/compat.kotlin_module'
+    }
+}
+
+
+apply from: "../secure-android.gradle"

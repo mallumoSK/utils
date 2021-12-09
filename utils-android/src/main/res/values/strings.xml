@@ -1,0 +1,11 @@
+<resources>
+    <string name="yesterday">yesterday</string>
+    <string name="tomorrow">tomorrow</string>
+    <string name="today">today</string>
+    <string name="now">now</string>
+    <string name="text_copied_to_clipboard">text copied to clipboard</string>
+    <string name="err_no_browser" translatable="false">No browser</string>
+    <string name="err_no_browser_msg" translatable="false">You must install browser, for open webpage</string>
+    <string name="install" translatable="false">install</string>
+    <string name="cancel">@android:string/cancel</string>
+</resources>

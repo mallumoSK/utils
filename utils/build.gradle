@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'kotlin'
+}
+//apply plugin: 'com.github.johnrengelman.shadow'
+
+group = "tk.mallumo"
+version = "14"
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    api "com.google.code.gson:gson:$gson"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+
+apply from: "../secure.gradle"
