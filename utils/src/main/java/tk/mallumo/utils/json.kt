@@ -7,9 +7,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 
-fun Any?.toJson(prityPrint: Boolean = false): String =
+fun Any?.toJson(prettyPrint: Boolean = false): String =
     GsonBuilder().apply {
-        if (prityPrint)
+        if (prettyPrint)
             setPrettyPrinting()
     }.create().toJson(this)
 

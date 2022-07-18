@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package tk.mallumo.utils
 
 object GenID {

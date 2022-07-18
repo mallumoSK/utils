@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package tk.mallumo.utils
 
 val String?.noDiacritics: String get() = removeDiacritic(this, DiacriticType.NORMAL)

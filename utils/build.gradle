@@ -6,10 +6,9 @@ plugins {
 //apply plugin: 'com.github.johnrengelman.shadow'
 
 group = "tk.mallumo"
-version = "1.6.10-15.0.0"
+version = kotlin_utils
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api "com.google.code.gson:gson:$gson"
 }
 
@@ -17,9 +16,5 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
-
 
 apply from: "../secure.gradle"

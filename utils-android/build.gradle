@@ -5,14 +5,14 @@ apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
 group = 'tk.mallumo'
-version = "1.6.10-15.0.0"
+version = kotlin_utils
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "$version"
     }

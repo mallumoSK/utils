@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package tk.mallumo.utils
 
 import android.content.Context
