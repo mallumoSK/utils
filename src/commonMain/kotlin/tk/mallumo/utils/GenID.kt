@@ -2,15 +2,15 @@
 
 package tk.mallumo.utils
 
-object GenID {
-    @Suppress("MemberVisibilityCanBePrivate")
-    var last = System.currentTimeMillis()
-        private set
+import java.util.concurrent.atomic.*
 
-    fun get(): Long {
-        last += 1
-        return last
-    }
+object GenID {
+
+    private val wrapper = AtomicLong(System.currentTimeMillis())
+
+    val last: Long get() = wrapper.get()
+
+    fun get(): Long = wrapper.getAndIncrement()
 
     operator fun getValue(thisRef: Any?, property: kotlin.reflect.KProperty<*>): Long = get()
 }
