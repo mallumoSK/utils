@@ -11,4 +11,6 @@ object GenID {
         last += 1
         return last
     }
+
+    operator fun getValue(thisRef: Any?, property: kotlin.reflect.KProperty<*>): Long = get()
 }
