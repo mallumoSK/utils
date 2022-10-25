@@ -2,16 +2,21 @@
 
 package tk.mallumo.utils
 
+import com.google.gson.*
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+private val gsonInline: Gson by lazy {
+    GsonBuilder().create()
+}
 
+private val gsonPretty: Gson by lazy {
+    GsonBuilder().apply {
+        setPrettyPrinting()
+    }.create()
+}
 
 fun Any?.toJson(prettyPrint: Boolean = false): String =
-    GsonBuilder().apply {
-        if (prettyPrint)
-            setPrettyPrinting()
-    }.create().toJson(this)
+    if (prettyPrint) gsonPretty.toJson(this)
+    else gsonInline.toJson(this)
 
 inline fun <reified T> String.fromJson(): T = Gson().fromJson(this, T::class.java)
 
