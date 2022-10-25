@@ -18,7 +18,8 @@ val version_gson by toolkit
 kotlin {
 
     android {
-        publishLibraryVariants("release", "debug")
+//        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
         publishLibraryVariantsGroupedByFlavor = true
     }
     jvm {
