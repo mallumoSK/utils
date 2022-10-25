@@ -1,4 +1,4 @@
-package tk.mallumo.compat
+package tk.mallumo.utils
 
 import android.annotation.SuppressLint
 import android.content.Context

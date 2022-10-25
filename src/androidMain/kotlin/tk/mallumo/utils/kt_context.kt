@@ -29,7 +29,7 @@ fun DisplayMetrics.valueOfSP(value: Number): Int =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, value.toFloat(), this).toInt()
 
 //
-val Context.sp: SPref get() = SPref.getSP(this)
+val Context.sp: SPref get() = SPref[this]
 
 val Context.inflater: LayoutInflater get() = LayoutInflater.from(this)
 
