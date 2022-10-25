@@ -2,10 +2,9 @@
 
 package tk.mallumo.utils
 
-import android.net.Uri
-import android.webkit.MimeTypeMap
-import java.io.File
-import java.io.Serializable
+import android.net.*
+import android.webkit.*
+import java.io.*
 
 private fun getMIME(file: File)
         : List<String> = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
@@ -14,10 +13,6 @@ private fun getMIME(file: File)
             .toString()
     ).lowercase()
 )?.split("/") ?: arrayListOf("", "")
-
-val String.file: File
-    get() = File(this)
-
 
 val String.fileUri: Uri
     get() = Uri.fromFile(file)

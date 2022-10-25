@@ -2,22 +2,24 @@
 
 package tk.mallumo.utils
 
-import java.text.SimpleDateFormat
+import java.text.*
 import java.util.*
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 
 
 fun Long.toDateString(): String = dateFormatter.format(Date(this))
 
 fun String.toDateMillis(): Long {
     return try {
-        dateFormatter.parse(this).time
+        dateFormatter.parse(this)!!.time
     } catch (e: Exception) {
         0
     }
 }
 
-val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSXXX", Locale.ENGLISH)
+val dateFormatter by lazy {
+    SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSXXX", Locale.ENGLISH)
+}
 
 val Int.second: Long
     get() {
