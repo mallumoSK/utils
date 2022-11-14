@@ -7,7 +7,7 @@ plugins {
 }
 
 val toolkit by lazy {
-    Toolkit.get(extensions = extensions)
+    Toolkit.get(extensions = extensions.extraProperties)
 }
 
 group = "tk.mallumo"
@@ -24,7 +24,7 @@ kotlin {
     }
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
         }
 
     }
@@ -59,12 +59,17 @@ android {
         targetSdkVersion(31)
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     lintOptions.isAbortOnError = false
     lintOptions.isCheckReleaseBuilds = false
     lintOptions.disable("TypographyFractions", "TypographyQuotes")
 }
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+}
+
 
 apply("secure.gradle")
