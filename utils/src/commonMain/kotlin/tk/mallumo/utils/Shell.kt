@@ -767,7 +767,7 @@ class Shell @Throws(NotFoundException::class) @JvmOverloads constructor(
                 if (!::instanceSU.isInitialized || !instanceSU.isAlive()) {
                     instanceSU = this["su"]
                 }
-                return instanceSH
+                return instanceSU
             }
 
         private const val THREAD_NAME_STDOUT = "STDOUT"

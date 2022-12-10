@@ -2,6 +2,6 @@
 
 ```groovy
 kotlin = '1.7.20'
-utils = "$kotlin-16.1.0"
+utils = "$kotlin-16.1.1"
 gson = "2.9.1"
 ```
