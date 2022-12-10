@@ -8,12 +8,14 @@ pluginManagement {
     }
     plugins {
         kotlin("multiplatform").version(extra["version.kotlin"] as String)
+        kotlin("jvm").version(extra["version.kotlin"] as String)
         kotlin("android").version(extra["version.kotlin"] as String)
         id("com.android.application").version(extra["version.agp"] as String)
         id("com.android.library").version(extra["version.agp"] as String)
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -25,3 +27,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "utils"
+include("test:desktop")
+include(":utils")
