@@ -174,7 +174,7 @@ class Shell @Throws(NotFoundException::class) @JvmOverloads constructor(
 
     @Throws(ClosedException::class)
     @Synchronized
-    fun cmd(command: String, config: Command.Config.Builder.() -> Unit) = run(command, config)
+    fun cmd(command: String, config: Command.Config.Builder.() -> Unit = {}) = run(command, config)
 
     /**
      * Run a command in the current shell and return its [result][Command.Result].
