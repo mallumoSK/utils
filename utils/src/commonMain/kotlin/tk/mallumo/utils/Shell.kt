@@ -7,13 +7,13 @@ import java.util.concurrent.*
 import java.util.concurrent.locks.*
 import java.util.regex.*
 
-
-fun shellSH(body: Shell.() -> Unit) {
-    body(Shell.sh)
+private val instanceMap = mutableMapOf<String, Shell>()
+fun <T> shellSH(instanceKey: String = "default", body: Shell.() -> T): T {
+    return body(instanceMap.getOrPut("sh-$instanceKey") { Shell["sh"] })
 }
 
-fun shellSU(body: Shell.() -> Unit) {
-    body(Shell.su)
+fun <T> shellSU(instanceKey: String = "default", body: Shell.() -> T): T {
+    return body(instanceMap.getOrPut("su-$instanceKey") { Shell["su"] })
 }
 
 /** Environment variable. */
@@ -750,25 +750,6 @@ class Shell @Throws(NotFoundException::class) @JvmOverloads constructor(
 
     companion object {
 
-        private lateinit var instanceSH: Shell
-
-        private lateinit var instanceSU: Shell
-
-        internal val sh: Shell
-            get() {
-                if (!::instanceSH.isInitialized || !instanceSH.isAlive()) {
-                    instanceSH = this["sh"]
-                }
-                return instanceSH
-            }
-
-        internal val su: Shell
-            get() {
-                if (!::instanceSU.isInitialized || !instanceSU.isAlive()) {
-                    instanceSU = this["su"]
-                }
-                return instanceSU
-            }
 
         private const val THREAD_NAME_STDOUT = "STDOUT"
         private const val THREAD_NAME_STDERR = "STDERR"

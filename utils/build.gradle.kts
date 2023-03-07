@@ -18,7 +18,6 @@ val version_gson by toolkit
 kotlin {
 
     android {
-//        publishLibraryVariants("release", "debug")
         publishLibraryVariants("release")
         publishLibraryVariantsGroupedByFlavor = true
     }
@@ -28,7 +27,6 @@ kotlin {
         }
 
     }
-
     sourceSets {
         @Suppress("UNUSED_VARIABLE") val commonMain by getting {
             dependencies {
@@ -36,38 +34,43 @@ kotlin {
             }
         }
 
-        @Suppress("UNUSED_VARIABLE") val jvmMain by getting {
-
-        }
+        @Suppress("UNUSED_VARIABLE") val jvmMain by getting
         @Suppress("UNUSED_VARIABLE") val androidMain by getting {
             dependencies {
                 implementation("androidx.core:core:1.9.0")
             }
-
         }
-
     }
 }
 
+@Suppress("UnstableApiUsage", "OldTargetApi", "DEPRECATION")
 android {
     compileSdk = 31
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
-//        minSdk = 24
-//        targetSdk = 33
-
-
-        minSdkVersion(21)
-        targetSdkVersion(31)
+        compileSdk = 31
+        minSdk = 21
+        targetSdk = 31
+        namespace = "tk.mallumo.utils"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    lintOptions.isAbortOnError = false
-    lintOptions.isCheckReleaseBuilds = false
-    lintOptions.disable("TypographyFractions", "TypographyQuotes")
+    lintOptions {
+        isCheckReleaseBuilds = false
+        isAbortOnError = false
+        disable("TypographyFractions", "TypographyQuotes")
+    }
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+        disable += setOf("TypographyFractions", "TypographyQuotes")
+    }
+    buildFeatures {
+        buildConfig = false
+    }
 }
 
 java {

@@ -6,12 +6,15 @@ pluginManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://mallumo.jfrog.io/artifactory/gradle-dev-local")
     }
+
+    infix fun PluginDependencySpec.versionX(key: String): PluginDependencySpec = version(extra[key] as String)
+
     plugins {
-        kotlin("multiplatform").version(extra["version.kotlin"] as String)
-        kotlin("jvm").version(extra["version.kotlin"] as String)
-        kotlin("android").version(extra["version.kotlin"] as String)
-        id("com.android.application").version(extra["version.agp"] as String)
-        id("com.android.library").version(extra["version.agp"] as String)
+        kotlin("multiplatform") versionX "version.kotlin" apply false
+        kotlin("jvm") versionX "version.kotlin" apply false
+        kotlin("android") versionX "version.kotlin" apply false
+        id("com.android.application") versionX "version.agp" apply false
+        id("com.android.library") versionX "version.agp" apply false
     }
 }
 
