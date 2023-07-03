@@ -4,7 +4,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven("https://mallumo.jfrog.io/artifactory/gradle-dev-local")
+        maven("https://repo.repsy.io/mvn/mallumo/public")
     }
 
     infix fun PluginDependencySpec.versionX(key: String): PluginDependencySpec = version(extra[key] as String)
@@ -25,7 +25,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven("https://mallumo.jfrog.io/artifactory/gradle-dev-local")
+        maven("https://repo.repsy.io/mvn/mallumo/public")
     }
 }
 
