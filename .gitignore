@@ -15,8 +15,6 @@
 local.properties
 /secure-android.gradle
 /secure.gradle
-/gradle.properties
-/gradle/wrapper/gradle-wrapper.jar
 /.idea/
 /buildSrc/build/
 /test/desktop/build/
