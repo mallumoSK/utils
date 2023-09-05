@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    kotlin("multiplatform") version Deps.kotlin
+    id("com.android.library") version Deps.agp
     id("maven-publish")
 }
 
@@ -25,6 +25,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Deps.datetime)
+                implementation(Deps.coroutines)
+                implementation(Deps.compose)
             }
         }
 
@@ -42,7 +44,7 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonJavaMain)
             dependencies {
-                implementation("androidx.core:core:1.9.0")
+                implementation(Deps.androidx.core)
             }
         }
     }
@@ -102,9 +104,9 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    maven("https://repo.repsy.io/mvn/mallumo/public")
+    gradlePluginPortal()
 }
-
-
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(11))
 }
