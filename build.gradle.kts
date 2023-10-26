@@ -92,13 +92,6 @@ publishing {
             }
         }
     }
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = Deps.lib.group
-            artifactId = Deps.lib.artifact
-            version = Deps.lib.version
-        }
-    }
 }
 
 repositories {
