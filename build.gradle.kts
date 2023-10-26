@@ -82,6 +82,7 @@ publishing {
     val rName = propertiesLocal["repsy.name"]
     val rKey = propertiesLocal["repsy.key"]
     repositories {
+        mavenLocal()
         maven {
             name = "repsy.io"
             url = uri("https://repo.repsy.io/mvn/${rName}/public")
