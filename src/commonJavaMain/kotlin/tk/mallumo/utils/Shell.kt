@@ -9,11 +9,11 @@ import java.util.regex.*
 
 private val instanceMap = mutableMapOf<String, Shell>()
 fun <T> shellSH(instanceKey: String = "default", body: Shell.() -> T): T {
-    return body(instanceMap.getOrPut("sh-$instanceKey") { Shell["sh"] })
+    return body(instanceMap.getOrPut("sh-$instanceKey") { Shell["sh", instanceKey] })
 }
 
 fun <T> shellSU(instanceKey: String = "default", body: Shell.() -> T): T {
-    return body(instanceMap.getOrPut("su-$instanceKey") { Shell["su"] })
+    return body(instanceMap.getOrPut("su-$instanceKey") { Shell["su", instanceKey] })
 }
 
 /** Environment variable. */
@@ -762,10 +762,10 @@ class Shell @Throws(NotFoundException::class) @JvmOverloads constructor(
         /**
          * Returns a [Shell] instance using the [path] as the path to the shell/executable.\
          */
-        operator fun get(path: String): Shell = instances[path]?.takeIf { shell ->
+        operator fun get(path: String, key: String): Shell = instances["$path-$key"]?.takeIf { shell ->
             shell.isAlive()
         } ?: Shell(path).also { shell ->
-            instances[path] = shell
+            instances["$path-$key"] = shell
         }
 
         /**
