@@ -1,77 +1,96 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.*
+import org.jetbrains.kotlin.gradle.dsl.*
+import java.util.*
+
 plugins {
-    kotlin("multiplatform") version Deps.kotlin
-    id("com.android.library") version Deps.agp
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.lib)
     id("maven-publish")
 }
 
-group = Deps.lib.group
-version = Deps.lib.version
+group = libs.me.utils.get().group
+version = libs.versions.me.utils.get()
 
 kotlin {
 
+    jvmToolchain(17)
+
+    js(IR) {
+        browser()
+    }
+
+    wasmJs {
+        browser()
+    }
+
+    js {
+        browser()
+    }
+
+    jvm()
+
     androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
         publishLibraryVariants("release")
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-    js(IR)
-
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(Deps.datetime)
-                implementation(Deps.coroutines)
-                implementation(Deps.compose)
+        commonMain.dependencies {
+            implementation(libs.kotlin.datetime)
+            implementation(libs.kotlin.coroutines)
+            implementation(libs.compose.runtime)
             }
-        }
+
 
         val commonJavaMain by creating {
-            dependsOn(commonMain)
+            dependsOn(commonMain.get())
             dependencies {
-                implementation(Deps.gson)
+                implementation(libs.gson)
             }
         }
-        val jsMain by getting
 
-        val jvmMain by getting {
+        jvmMain {
             dependsOn(commonJavaMain)
         }
-        val androidMain by getting {
+
+        androidMain {
             dependsOn(commonJavaMain)
             dependencies {
-                implementation(Deps.androidx.core)
+                implementation(libs.androidx.core)
             }
         }
     }
 }
 
-@Suppress("UnstableApiUsage", "OldTargetApi")
+@Suppress("OldTargetApi")
 android {
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+//    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        compileSdk = 31
-        minSdk = 21
-        namespace = "${Deps.lib.group}.${Deps.lib.artifact}"
+        namespace = "${libs.me.utils.get().group}.${libs.me.utils.get().name}"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        compileSdk = libs.versions.android.targetSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    @Suppress("DEPRECATION")
-    lintOptions {
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
-        disable("TypographyFractions", "TypographyQuotes")
-    }
+
     lint {
         abortOnError = false
         checkReleaseBuilds = false
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         disable += setOf("TypographyFractions", "TypographyQuotes")
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
     buildFeatures {
         buildConfig = false
@@ -94,14 +113,25 @@ publishing {
     }
 }
 
-repositories {
-    google()
-    mavenCentral()
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://repo.repsy.io/mvn/mallumo/public")
-    gradlePluginPortal()
-}
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+
+val Project.propertiesLocal: LocalProperties get() = LocalProperties.get(this)
+
+class LocalProperties private constructor(private val project: Project) {
+    val prop = Properties().apply {
+        project.rootProject.file("local.properties").reader().use {
+            load(it)
+        }
+    }
+
+    companion object {
+        private lateinit var instance: LocalProperties
+        internal fun get(project: Project): LocalProperties {
+            if (!::instance.isInitialized) {
+                instance = LocalProperties(project)
+            }
+            return instance
+        }
+    }
+
+    operator fun get(key: String): String? = prop[key] as? String
 }

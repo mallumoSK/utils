@@ -39,7 +39,8 @@ private val pdA = arrayOf(
     "Ň",
     "Ó",
     "Ŕ",
-    "Ĺ"
+    "Ĺ",
+    "ć", "đ", "Ć", "Đ"
 )
 
 // pismena bez diakritky zodpovedajuce pismenam v poli pd
@@ -75,24 +76,25 @@ private val pA = arrayOf(
     "N",
     "O",
     "R",
-    "L"
+    "L",
+    "c", "d", "C", "D"
 )
 
 // pismena s diakritikou
 private val pdL =
-    arrayOf("ď", "ľ", "š", "č", "ť", "ž", "ý", "á", "í", "é", "ú", "ä", "ň", "ĺ", "ŕ", "ô", "ó")
+    arrayOf("ď", "ľ", "š", "č", "ť", "ž", "ý", "á", "í", "é", "ú", "ä", "ň", "ĺ", "ŕ", "ô", "ó", "ć", "đ")
 
 // pismena bez diakritky zodpovedajuce pismenam v poli pd
 private val pL =
-    arrayOf("d", "l", "s", "c", "t", "z", "y", "a", "i", "e", "u", "a", "n", "l", "r", "o", "o")
+    arrayOf("d", "l", "s", "c", "t", "z", "y", "a", "i", "e", "u", "a", "n", "l", "r", "o", "o", "c", "d")
 
 // pismena s diakritikou
 private val pdU =
-    arrayOf("Ď", "Ľ", "Š", "Č", "Ť", "Ž", "Ý", "Á", "Í", "É", "Ú", "Ä", "Ň", "Ĺ", "Ŕ", "Ô", "Ó")
+    arrayOf("Ď", "Ľ", "Š", "Č", "Ť", "Ž", "Ý", "Á", "Í", "É", "Ú", "Ä", "Ň", "Ĺ", "Ŕ", "Ô", "Ó", "Ć", "Đ")
 
 // pismena bez diakritky zodpovedajuce pismenam v poli pd
 private val pU =
-    arrayOf("D", "L", "S", "C", "T", "Z", "Y", "A", "I", "E", "U", "A", "N", "L", "R", "O", "O")
+    arrayOf("D", "L", "S", "C", "T", "Z", "Y", "A", "I", "E", "U", "A", "N", "L", "R", "O", "O", "C", "D")
 
 enum class DiacriticType {
     NORMAL, LOWER, UPPER
