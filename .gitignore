@@ -20,3 +20,4 @@ local.properties
 /test/desktop/build/
 /utils/build/
 /.kotlin/metadata/
+/kotlin-js-store/yarn.lock

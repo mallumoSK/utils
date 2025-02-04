@@ -32,7 +32,6 @@ kotlin {
     jvm()
 
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -45,7 +44,7 @@ kotlin {
             implementation(libs.kotlin.datetime)
             implementation(libs.kotlin.coroutines)
             implementation(libs.compose.runtime)
-            }
+        }
 
 
         val commonJavaMain by creating {
