@@ -65,6 +65,9 @@ kotlin {
             }
         }
     }
+    compilerOptions {
+        optIn.add("kotlin.time.ExperimentalTime")
+    }
 }
 
 @Suppress("OldTargetApi")

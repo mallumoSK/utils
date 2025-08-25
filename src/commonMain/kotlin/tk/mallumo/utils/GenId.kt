@@ -2,7 +2,8 @@
 
 package tk.mallumo.utils
 
-import kotlinx.datetime.*
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 
 object GenId {
