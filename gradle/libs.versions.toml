@@ -1,7 +1,7 @@
 [versions]
 kotlin_core = "2.2.10"
 kotlin_datetime = "0.7.1"
-kotlin_coroutines = "1.10.2"
+kotlin_coroutines = "1.10.1"
 android_agp = "8.2.2"
 #
 me_utils = "2.2.10-1.1.0"
