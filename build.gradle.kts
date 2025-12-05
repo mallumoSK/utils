@@ -38,7 +38,6 @@ kotlin {
         publishLibraryVariants("release")
         publishLibraryVariantsGroupedByFlavor = true
     }
-
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlin.datetime)
