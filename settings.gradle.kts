@@ -30,5 +30,7 @@ pluginManagement {
         maven("https://repo.repsy.io/mvn/mallumo/public")
     }
 }
-
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
 rootProject.name = "utils"

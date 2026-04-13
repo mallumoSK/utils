@@ -6,11 +6,11 @@ import java.util.*
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.lib)
+    alias(libs.plugins.android.library)
     id("maven-publish")
 }
 
-group = libs.me.utils.get().group
+group = libs.me.utils.get().group!!
 version = libs.versions.me.utils.get()
 
 kotlin {
@@ -25,19 +25,14 @@ kotlin {
         browser()
     }
 
-    js {
-        browser()
-    }
-
     jvm()
 
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-        publishLibraryVariants("release")
-        publishLibraryVariantsGroupedByFlavor = true
+    android {
+        namespace = libs.me.utils.get().let { "${group}.${name}" }
+        compileSdk = libs.versions.android.sdk.compile.get().toInt()
+        minSdk = libs.versions.android.sdk.min.get().toInt()
     }
+    applyDefaultHierarchyTemplate()
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlin.datetime)
@@ -66,35 +61,6 @@ kotlin {
     }
     compilerOptions {
         optIn.add("kotlin.time.ExperimentalTime")
-    }
-}
-
-@Suppress("OldTargetApi")
-android {
-//    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        namespace = "${libs.me.utils.get().group}.${libs.me.utils.get().name}"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        compileSdk = libs.versions.android.targetSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    lint {
-        abortOnError = false
-        checkReleaseBuilds = false
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        disable += setOf("TypographyFractions", "TypographyQuotes")
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildFeatures {
-        buildConfig = false
     }
 }
 

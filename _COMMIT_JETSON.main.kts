@@ -12,7 +12,7 @@ import java.time.Duration
 import org.json.JSONObject
 import org.json.JSONArray
 
-val dir = args.getOrNull(0)?:error("missing dir path")
+val dir = args.getOrNull(0) ?: error("missing dir path")
 val serviceUrl = "http://192.168.1.27:8000/generate/live"
 
 fun executeCommand(args: List<String>): String? {
@@ -104,13 +104,14 @@ fun callGemmaLiveService(systemPrompt: String, userPrompt: String): String? {
 val changedFilesSet = mutableSetOf<String>()
 
 // Get staged files with --ignore-submodules
-executeCommand(listOf("git", "diff", "--cached", "--name-only", "--ignore-submodules"))?.lines()?.forEach { 
-    if (it.isNotBlank()) changedFilesSet.add(it.trim()) 
-}
+executeCommand(listOf("git", "diff", "--cached", "--name-only", "--ignore-submodules"))?.lines()
+    ?.forEach {
+        if (it.isNotBlank()) changedFilesSet.add(it.trim())
+    }
 
 // Get unstaged files with --ignore-submodules
-executeCommand(listOf("git", "diff", "--name-only", "--ignore-submodules"))?.lines()?.forEach { 
-    if (it.isNotBlank()) changedFilesSet.add(it.trim()) 
+executeCommand(listOf("git", "diff", "--name-only", "--ignore-submodules"))?.lines()?.forEach {
+    if (it.isNotBlank()) changedFilesSet.add(it.trim())
 }
 
 if (changedFilesSet.isEmpty()) {
@@ -124,13 +125,14 @@ if (changedFilesSet.isEmpty()) {
 
     while (filesToProcess.isNotEmpty()) {
         val currentFailed = mutableListOf<String>()
-        
+
         for (file in filesToProcess) {
             println("\nProcessing: $file")
             try {
                 // Get diff relative to HEAD to cover both staged and unstaged, including --ignore-submodules
-                val diff = executeCommand(listOf("git", "diff", "HEAD", "--ignore-submodules", "--", file))
-                
+                val diff =
+                    executeCommand(listOf("git", "diff", "HEAD", "--ignore-submodules", "--", file))
+
                 if (diff.isNullOrBlank()) {
                     println("No changes relative to HEAD for $file. Skipping.")
                     continue
@@ -165,13 +167,16 @@ if (changedFilesSet.isEmpty()) {
                 "R" -> {
                     filesToProcess = currentFailed
                 }
+
                 "S" -> {
                     filesToProcess = emptyList()
                 }
+
                 "Q" -> {
                     println("Exiting.")
                     System.exit(0)
                 }
+
                 else -> {
                     println("Invalid choice. Exiting.")
                     System.exit(1)
@@ -185,7 +190,7 @@ if (changedFilesSet.isEmpty()) {
     if (fileCommitMessages.isNotEmpty()) {
         println("\n========================================")
         println("BUILDING FINAL COMMIT MESSAGE...")
-        
+
         val finalMessage = fileCommitMessages.entries.joinToString("\n\n") { (path, msg) ->
             "# $path\n$msg"
         }
@@ -196,7 +201,7 @@ if (changedFilesSet.isEmpty()) {
         if (confirm == "Y" || confirm.isEmpty()) {
             val filesToStage = fileCommitMessages.keys.toList()
             executeCommand(listOf("git", "add") + filesToStage)
-            
+
             val msgFile = File.createTempFile("g-commit", ".txt").apply {
                 writeText(finalMessage)
                 deleteOnExit()
