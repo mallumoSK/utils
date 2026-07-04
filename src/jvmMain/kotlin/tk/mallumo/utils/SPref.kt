@@ -1,22 +1,27 @@
 package tk.mallumo.utils
 
-import com.google.gson.*
 import java.io.*
 import kotlin.reflect.*
+import kotlinx.serialization.json.*
 
 actual class SPref(path: String) : SPrefConnectorImpl {
 
-    private var virtualData: JsonObject
+    private val data = mutableMapOf<String, JsonElement>()
 
     private val file = File(path).apply {
-        virtualData = if (!exists()) {
+        if (!exists()) {
             createNewFile()
             writeText("{}")
-            JsonObject()
         } else {
-            JsonParser.parseString(readText()).asJsonObject
+            try {
+                val element = Json.parseToJsonElement(readText())
+                if (element is JsonObject) {
+                    data.putAll(element)
+                }
+            } catch (e: Exception) {
+                // handle or ignore
+            }
         }
-
     }
 
     private val holder = SPrefImpl(this)
@@ -45,52 +50,52 @@ actual class SPref(path: String) : SPrefConnectorImpl {
 
     actual fun <T : Any> set(key: String, value: T, clazz: KClass<T>) = holder.set(key, value, clazz)
 
+    private fun persist() {
+        val jsonObject = JsonObject(data)
+        file.writeText(jsonObject.toString())
+    }
+
     //PUT
 
     override fun putInt(key: String, value: Int) {
-        virtualData.addProperty(key, value)
-        file.writeText(virtualData.toString())
+        data[key] = JsonPrimitive(value)
+        persist()
     }
 
     override fun putString(key: String, value: String) {
-        virtualData.addProperty(key, value)
-        file.writeText(virtualData.toString())
+        data[key] = JsonPrimitive(value)
+        persist()
     }
 
     override fun putLong(key: String, value: Long) {
-        virtualData.addProperty(key, value)
-        file.writeText(virtualData.toString())
+        data[key] = JsonPrimitive(value)
+        persist()
     }
 
     override fun putBoolean(key: String, value: Boolean) {
-        virtualData.addProperty(key, value)
-        file.writeText(virtualData.toString())
+        data[key] = JsonPrimitive(value)
+        persist()
     }
 
     override fun putFloat(key: String, value: Float) {
-        virtualData.addProperty(key, value)
-        file.writeText(virtualData.toString())
+        data[key] = JsonPrimitive(value)
+        persist()
     }
 
     //GET
 
     override fun getInt(key: String): Int? =
-        virtualData.takeIf { it.has(key) }
-            ?.let { it[key].asInt }
+        data[key]?.jsonPrimitive?.intOrNull
 
     override fun getString(key: String): String? =
-        virtualData.takeIf { it.has(key) }
-            ?.let { it[key].asString }
+        data[key]?.jsonPrimitive?.contentOrNull
 
     override fun getLong(key: String): Long? =
-        virtualData.takeIf { it.has(key) }
-            ?.let { it[key].asLong }
+        data[key]?.jsonPrimitive?.longOrNull
 
     override fun getBoolean(key: String): Boolean? =
-        virtualData.takeIf { it.has(key) }
-            ?.let { it[key].asBoolean }
+        data[key]?.jsonPrimitive?.booleanOrNull
 
     override fun getFloat(key: String): Float? =
-        virtualData.takeIf { it.has(key) }
-            ?.let { it[key].asFloat }
+        data[key]?.jsonPrimitive?.floatOrNull
 }

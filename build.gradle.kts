@@ -10,7 +10,7 @@ plugins {
     id("maven-publish")
 }
 
-group = libs.me.utils.get().group!!
+group = libs.me.utils.get().group
 version = libs.versions.me.utils.get()
 
 kotlin {
@@ -38,14 +38,12 @@ kotlin {
             implementation(libs.kotlin.datetime)
             implementation(libs.kotlin.coroutines)
             implementation(libs.compose.runtime)
+            implementation(libs.kotlin.serialization)
         }
 
 
         val commonJavaMain by creating {
             dependsOn(commonMain.get())
-            dependencies {
-                implementation(libs.gson)
-            }
         }
 
         jvmMain {
